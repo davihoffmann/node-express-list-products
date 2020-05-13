@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const requireDir = require('require-dir');
 
 // Inicia o APP
 const app = express();
@@ -10,9 +11,20 @@ mongoose.connect('mongodb://localhost:27017/nodeapi', {
     useNewUrlParser: true 
 });
 
+// Adiciona os models
+requireDir("./src/models");
+
+const Product = mongoose.model('Product');
+
 // Primeira Rota
 app.get('/', (req, res) => {
-    res.send('Hello Teste');
+    Product.create({
+        title: 'React Native',
+        description: 'Build native app with React',
+        url: 'https://github.com/facebook/react-native',
+    });
+
+    return res.send('Hello Teste');
 });
 
 app.listen(3001);
