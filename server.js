@@ -8,6 +8,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Exemplo de Middleware (GLOBAL) de LOG
+app.use((req, res, next) => {
+    console.time('Request')
+    console.log(`Método: ${req.method}; URL: ${req.url};`);
+    next();
+    console.timeEnd('Request');
+})
+
 // Inicia o DB
 mongoose.connect('mongodb://localhost:27017/nodeapi', { 
     useUnifiedTopology: true, 
